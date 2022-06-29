@@ -3,20 +3,20 @@ from euclides import euclides
 from inverso import inverso
 from expMod import expMod
 
-def rsaKeyGenerator():
+def rsaKeyGenerator(b=32):
     # Generar numeros primos p y q
-    p = genPrimoBits(16)
-    q = genPrimoBits(16)
+    p = genPrimoBits(b // 2)
+    q = genPrimoBits(b // 2)
     while p == q:
-        q = genPrimoBits(16)
+        q = genPrimoBits(b // 2)
     # Calcular n = p * q
     n = p * q
     # Calcular phi(n)
     phiN = (p - 1) * (q - 1)
     # Generar e, tal que mcd(e, phiN) = 1
-    e = randomBits(32)
+    e = randomBits(b)
     while euclides(e, phiN) != 1:
-        e = randomBits(32)
+        e = randomBits(b)
     # Hallar d (la inversa de e)
     d = inverso(e, phiN)
     return ([e, n], [d, n])
